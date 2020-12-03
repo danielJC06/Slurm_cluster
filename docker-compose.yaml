@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+  jlab1:
+    build: slurm_ctl 
+    image: slurm_singularity_mpi
+    hostname: jlab1
+    container_name: jlab1
+    privileged: true
+    environment: 
+      - GRANT_SUDO=yes
+      - OMPI_ALLOW_RUN_AS_ROOT=1
+      - OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
+    user: root
+    volumes:
+      - /home/whodidthis/working/:/home/jovyan/work
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+            #- //c/Users/hw_12/OneDrive/Desktop/research/jlab:/home/jovyan/work
+    ports:
+      - "8888:8888"
+    restart: on-failure
+
+  jlab2:
+    build: slurm_worker
+    image: slurm_singularity_mpi
+    hostname: jlab2
+    container_name: jlab2
+    privileged: true
+    environment: 
+      - GRANT_SUDO=yes
+      - OMPI_ALLOW_RUN_AS_ROOT=1
+      - OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
+    user: root
+    volumes:
+      - /home/whodidthis/working/:/home/jovyan/work
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+            #- //c/Users/hw_12/OneDrive/Desktop/research/jlab:/home/jovyan/work
+    restart: always
+    depends_on: 
+      - jlab1
+
+  jlab3:
+    build: slurm_worker
+    image: slurm_singularity_mpi
+    hostname: jlab3
+    container_name: jlab3
+    privileged: true
+    environment:
+      - GRANT_SUDO=yes
+      - OMPI_ALLOW_RUN_AS_ROOT=1
+      - OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
+    user: root
+    volumes:
+      - /home/whodidthis/working/:/home/jovyan/work
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+            #- //c/Users/hw_12/OneDrive/Desktop/research/jlab:/home/jovyan/work
+    restart: always 
+    depends_on: 
+      - jlab1
+

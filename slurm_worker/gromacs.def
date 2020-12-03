@@ -1,0 +1,13 @@
+Bootstrap: docker
+From: ubuntu:focal
+
+%post
+    echo "Installing required packages..."
+    apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+	openmpi-bin \
+	gromacs-openmpi \
+	wget \
+    	git \
+    	bash \
+    	file
+
