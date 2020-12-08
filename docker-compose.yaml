@@ -3,7 +3,7 @@ version: '3'
 services:
   jlab1:
     build: slurm_ctl 
-    image: slurm_singularity_mpi
+    image: slurm_singularity_mpi_ctl
     hostname: jlab1
     container_name: jlab1
     privileged: true
@@ -22,7 +22,7 @@ services:
 
   jlab2:
     build: slurm_worker
-    image: slurm_singularity_mpi
+    image: slurm_singularity_mpi_1
     hostname: jlab2
     container_name: jlab2
     privileged: true
@@ -41,7 +41,7 @@ services:
 
   jlab3:
     build: slurm_worker
-    image: slurm_singularity_mpi
+    image: slurm_singularity_mpi_2
     hostname: jlab3
     container_name: jlab3
     privileged: true
