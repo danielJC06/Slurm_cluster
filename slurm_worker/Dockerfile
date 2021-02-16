@@ -29,8 +29,8 @@ RUN apt-get update && \
 RUN echo "Set disable_coredump false" >> /etc/sudo.conf
 COPY slurm.conf /etc/slurm-llnl/slurm.conf
 RUN chmod 777 /var/spool
-COPY munge.key /etc/mungue/
-RUN chown munge /etc/munge/munge.key
+#COPY munge.key /etc/munge/
+#RUN chown munge /etc/munge/munge.key
 
 RUN wget https://github.com/hpcng/singularity/releases/download/v3.6.3/singularity-3.6.3.tar.gz
 RUN tar -xzf singularity-3.6.3.tar.gz
