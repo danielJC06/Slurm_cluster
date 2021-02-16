@@ -3,7 +3,9 @@ kind: ConfigMap
 metadata:
   name: mungeconfig
 data:
-  MUNGE_KEY: heavyfuckinmetal
+  MUNGE_KEY: Z6+$6Lc``c;g{DMdsu+pyo8DymAB#l%e]3<?TQSt'P@&<3jS@[o2^-ulJ&~Hr.=
+
+
 ---
 apiVersion: v1
 kind: Service

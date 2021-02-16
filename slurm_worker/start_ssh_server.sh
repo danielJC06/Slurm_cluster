@@ -5,5 +5,5 @@ chown munge:munge /etc/munge/munge.key
 chmod 0700 /etc/munge/munge.key
 service ssh start
 service munge start
-service slurmctld start
+service slurmd start
 sleep infinity
