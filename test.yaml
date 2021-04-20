@@ -1,0 +1,78 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mungeconfig
+data:
+  MUNGE_KEY: Z6+$6Lc``c;g{DMdsu+pyo8DymAB#l%e]3<?TQSt'P@&<3jS@[o2^-ulJ&~Hr.=
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  name: hpc
+spec:
+  selector:
+    app: hpc-stuff
+  clusterIP: None
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  name: hpc-ctl
+spec:
+  selector:
+    app: hpc-ctl-stuff
+  clusterIP: None
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: jlab-2
+spec: 
+  replicas: 3 
+  selector:
+    app: hpc-stuff
+  template:
+    metadata:
+      name: slurm_c
+      labels:
+        app: hpc-stuff
+    spec:
+      hostname: hpc 
+      containers:
+      - name: worker
+        image: djc6w/slurm_worker
+        volumeMounts:
+        - name: munge-key
+          mountPath: /etc/munge/munge.key.tmp
+      volumes:
+      - name: munge-key
+        configMap:
+          name: mungeconfig
+      subdomain: hpc
+      dnsConfig:
+        searches:
+        - hpc.svc.cluster.local
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: jlab-1
+  labels:
+    app: hpc-ctl-stuff
+spec:
+  hostname: hpc-ctl 
+  containers:
+  - name: control
+    image: djc6w/slurm_client
+    terminationMessagePath: "/tmp/dad-log"
+    volumeMounts:
+    - name: munge-key
+      mountPath: /etc/munge/munge.key.tmp
+  volumes:
+  - name: munge-key
+    configMap:
+      name: mungeconfig
+  subdomain: hpc     
+  dnsConfig:
+    searches:
+    - hpc.svc.cluster.local
