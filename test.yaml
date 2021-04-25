@@ -40,7 +40,8 @@ spec:
       hostname: hpc 
       containers:
       - name: worker
-        image: djc6w/slurm_worker
+        image: djc6w/worker:latest
+        imagePullPolicy: Always  
         volumeMounts:
         - name: munge-key
           mountPath: /etc/munge/munge.key.tmp
@@ -63,7 +64,8 @@ spec:
   hostname: hpc-ctl 
   containers:
   - name: control
-    image: djc6w/slurm_client
+    image: djc6w/ctl:latest
+    imagePullPolicy: Always
     terminationMessagePath: "/tmp/dad-log"
     volumeMounts:
     - name: munge-key
